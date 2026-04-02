@@ -4,16 +4,24 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "start": "astro dev --host 127.0.0.1 --port 4321",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "astro preview --host 127.0.0.1 --port 4321",
+    "typecheck": "astro check",
+    "verify": "npm run typecheck && npm run build",
+    "enrich:habitats": "node scripts/enrich-habitats.mjs",
+    "sync:national-dex": "node scripts/sync-national-dex.mjs",
     "astro": "astro"
   },
   "dependencies": {
     "astro": "^5.18.0"
   },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.0",
+    "typescript": "~5.7.0"
+  },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.19.0"
   }
 }

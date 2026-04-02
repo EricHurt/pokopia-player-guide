@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getAllHabitatTemplateSlugs, getHabitatTemplateDetail } from '../../../lib/game-data';
+
+export function getStaticPaths() {
+  return getAllHabitatTemplateSlugs().map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const detail = slug ? getHabitatTemplateDetail(slug) : undefined;
+
+if (!detail) {
+  return Astro.redirect('/404');
+}
+
+const title = detail.name;
+const description = `Pokémon that use the “${detail.name}” habitat template in compiled Pokopia dex data.`;
+---
+
+<BaseLayout frontmatter={{ title, description }}>
+  <p>
+    <a href="/habitats/templates">← Habitat templates index</a>
+  </p>
+  <h1>{detail.name}</h1>
+  <p>
+    These species list this layout as a habitat template in <code>pokopia-dex.json</code>. Use the in-game builder for exact
+    materials and unlock tiers.
+  </p>
+  <p>
+    <strong>{detail.species.length}</strong> species
+  </p>
+  <ul>
+    {
+      detail.species.map((s) => (
+        <li>
+          <a href={`/pokemon/${s.slug}`}>{s.name}</a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

@@ -1,0 +1,63 @@
+---
+import type { Article, NavLink } from '../types/article';
+
+interface Props {
+  article: Article;
+  /** Optional links shown after the article (e.g. “Next page”). */
+  footerLinks?: readonly NavLink[];
+}
+
+const { article, footerLinks } = Astro.props;
+---
+
+{
+  article.sections.map((section) => (
+    <section class="article-section">
+      <h2>{section.heading}</h2>
+      {section.paragraphs?.map((p) => <p>{p}</p>)}
+      {section.bullets && section.bullets.length > 0 ? (
+        <ul>
+          {section.bullets.map((b) => (
+            <li>{b}</li>
+          ))}
+        </ul>
+      ) : null}
+      {section.ordered && section.ordered.length > 0 ? (
+        <ol>
+          {section.ordered.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ol>
+      ) : null}
+      {section.checklist && section.checklist.length > 0 ? (
+        <ul class="checklist">
+          {section.checklist.map((item) => (
+            <li>
+              <label>
+                <input type="checkbox" checked={item.done} disabled />
+                <span>{item.text}</span>
+              </label>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      {section.tip ? (
+        <aside class="tip" role="note">
+          <strong>Tip:</strong> {section.tip}
+        </aside>
+      ) : null}
+    </section>
+  ))
+}
+{
+  footerLinks && footerLinks.length > 0 ? (
+    <p class="article-footer-nav">
+      {footerLinks.map((link, i) => (
+        <>
+          {i > 0 ? ' · ' : null}
+          <a href={link.href}>{link.label}</a>
+        </>
+      ))}
+    </p>
+  ) : null
+}

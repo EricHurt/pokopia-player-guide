@@ -1,0 +1,196 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAbilitiesForSpecies, getAllPokemon, getPokemonBySlug } from '../../lib/game-data';
+import {
+  habitatThemeFromTypes,
+  officialArtworkUrl,
+  typeLabelToPillClass,
+} from '../../lib/pokemon-presentation';
+
+export function getStaticPaths() {
+  return getAllPokemon().map((p) => ({ params: { slug: p.slug } }));
+}
+
+const { slug } = Astro.params;
+const species = slug ? getPokemonBySlug(slug) : undefined;
+
+if (!species) {
+  return Astro.redirect('/404');
+}
+
+const abilities = getAbilitiesForSpecies(species);
+const title = species.name;
+const description = species.summary;
+const theme = habitatThemeFromTypes(species.element);
+const artUrl = officialArtworkUrl(species.nationalDex);
+const typeLabels = species.element.split('/').map((t) => t.trim()).filter(Boolean);
+
+const hasStructuredHabitat =
+  (species.habitatTemplates && species.habitatTemplates.length > 0) ||
+  !!species.preferredEnvironment ||
+  (species.timeOfDay && species.timeOfDay.length > 0) ||
+  (species.weather && species.weather.length > 0);
+
+function peLabel(pe: string | readonly string[] | undefined): string {
+  if (pe == null || pe === '') return '';
+  if (typeof pe === 'string') return pe;
+  return [...pe].join(', ');
+}
+---
+
+<BaseLayout frontmatter={{ title, description }} mainClass="main--wide">
+  <div class="habitat-adventure full-bleed">
+    <div class="habitat-scene" data-habitat-theme={theme} aria-label={`Habitat mood for ${species.name}`}>
+      <div class="habitat-sky" />
+      <div class="habitat-sun" />
+      <div class="habitat-hill" />
+      <div class="habitat-trees">
+        <div class="habitat-tree habitat-tree--1" />
+        <div class="habitat-tree habitat-tree--2" />
+        <div class="habitat-tree habitat-tree--3" />
+        <div class="habitat-tree habitat-tree--4" />
+      </div>
+      <div class="habitat-grass-line" />
+      <div class="habitat-sparkles" aria-hidden="true">
+        {Array.from({ length: 6 }).map(() => <span />)}
+      </div>
+      <div class="habitat-leaf habitat-leaf--1" aria-hidden="true" />
+      <div class="habitat-leaf habitat-leaf--2" aria-hidden="true" />
+      <div class="habitat-leaf habitat-leaf--3" aria-hidden="true" />
+
+      <button type="button" class="habitat-mon" aria-label={`Say hi to ${species.name} (playful bounce)`}>
+        {
+          artUrl ? (
+            <img
+              class="habitat-mon__img"
+              src={artUrl}
+              width="256"
+              height="256"
+              alt={`${species.name} official-style artwork`}
+              loading="eager"
+              decoding="async"
+            />
+          ) : (
+            <div class="habitat-mon__fallback">
+              <span aria-hidden="true">🌿</span>
+            </div>
+          )
+        }
+      </button>
+
+      <div class="habitat-plank">
+        <h1 class="habitat-plank__title">{species.name}</h1>
+        <p class="habitat-plank__meta">
+          {species.dexNumber ? `Dex #${species.dexNumber}` : 'Pokopia habitat pal'}
+          {
+            typeLabels.length > 0 ? (
+              <>
+                {' '}
+                · {typeLabels.join(' / ')}
+              </>
+            ) : null
+          }
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="habitat-detail-panel">
+    <a class="forest-back" href="/pokemon">← Back to the Pokémon grove</a>
+    <p>{species.summary}</p>
+
+    <div class="pill-row">
+      {
+        typeLabels.map((t) => (
+          <span class:list={['type-pill', typeLabelToPillClass(t)]}>{t}</span>
+        ))
+      }
+    </div>
+
+    <h2>Habitat and conditions</h2>
+    {
+      species.preferredEnvironment ? (
+        <p>
+          <strong>Preferred environment:</strong> {peLabel(species.preferredEnvironment)}
+        </p>
+      ) : null
+    }
+    {
+      species.timeOfDay && species.timeOfDay.length > 0 ? (
+        <p>
+          <strong>Time of day:</strong> {species.timeOfDay.join(', ')}
+        </p>
+      ) : null
+    }
+    {
+      species.weather && species.weather.length > 0 ? (
+        <p>
+          <strong>Weather:</strong> {species.weather.join(', ')}
+        </p>
+      ) : null
+    }
+
+    {
+      species.habitatTemplates && species.habitatTemplates.length > 0 ? (
+        <>
+          <h3>Habitat templates</h3>
+          <p>
+            Build these habitat layouts in your camp so this species can appear. Each name links to this guide’s
+            <a href="/habitats/templates">template index</a> entry listing every species that shares that layout. Use the
+            in-game builder for exact materials.
+          </p>
+          <ul>
+            {species.habitatTemplates.map((h) => (
+              <li>
+                <a href={h.href}>{h.name}</a>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null
+    }
+
+    {
+      !hasStructuredHabitat ? (
+        <p>{species.habitatNotes}</p>
+      ) : species.habitatNotes.includes('Live guide unavailable') || species.habitatNotes.includes('404') ? (
+        <p class="habitat-fallback">{species.habitatNotes}</p>
+      ) : (
+      <p class="muted small-source">
+        Conditions and template names are compiled into this site’s dex — always confirm materials and unlocks in your copy
+        of the game.
+      </p>
+      )
+    }
+
+    <h2>Specialties</h2>
+    {
+      abilities.length === 0 ? (
+        <p>None listed in <code>pokopia-dex.json</code> for this species.</p>
+      ) : (
+        <ul>
+          {abilities.map((a) => (
+            <li>
+              <strong>{a.name}</strong> — {a.description}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <p>
+      <a href="/pokemon/abilities">Full specialties glossary →</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.habitat-mon');
+  const img = document.querySelector<HTMLImageElement>('.habitat-mon__img');
+  if (btn && img) {
+    btn.addEventListener('click', () => {
+      img.classList.remove('is-bounce');
+      void img.offsetWidth;
+      img.classList.add('is-bounce');
+    });
+  }
+</script>

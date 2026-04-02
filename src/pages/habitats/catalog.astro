@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllHabitatBlueprints } from '../../lib/game-data';
+
+const title = 'Habitat blueprints';
+const description = 'Structured layout ideas from typed data — pair with narrative guides in Markdown.';
+const plans = getAllHabitatBlueprints();
+---
+
+<BaseLayout frontmatter={{ title, description }}>
+  <p>
+    <a href="/habitats/basics">← Habitat basics (Markdown guide)</a>
+  </p>
+  <h1>{title}</h1>
+  <p>
+    Blueprints live in <code>src/data/habitats.ts</code> as <code>HabitatBlueprint</code> objects. For layout names pulled
+    from the Pokédex (and which Pokémon use each), see <a href="/habitats/templates">Habitat templates</a>.
+  </p>
+  <ul class="card-list">
+    {
+      plans.map((p) => (
+        <li class="card">
+          <h2>{p.name}</h2>
+          <p class="tier">
+            Tier <strong>{p.tier}</strong>
+          </p>
+          <p>{p.goal}</p>
+          <ul>
+            {p.layoutNotes.map((note) => (
+              <li>{note}</li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
+  <p>
+    <a href="/habitats/upgrades">Upgrades guide (Markdown) →</a>
+  </p>
+</BaseLayout>

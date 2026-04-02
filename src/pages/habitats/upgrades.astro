@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleBody from '../../components/ArticleBody.astro';
+import { habitatUpgradesArticle } from '../../data/copy/habitats';
+
+const article = habitatUpgradesArticle;
+---
+
+<BaseLayout frontmatter={{ title: article.title, description: article.description }}>
+  <ArticleBody
+    article={article}
+    footerLinks={[{ href: '/habitats/basics', label: '← Habitat basics' }]}
+  />
+</BaseLayout>

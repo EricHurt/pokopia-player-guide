@@ -6,9 +6,13 @@ interface Props {
     title: string;
     description?: string;
   };
+  /** Extra classes on `<body>` (e.g. forest theme). */
+  bodyClass?: string;
+  /** Extra classes on `<main>` (e.g. full width). */
+  mainClass?: string;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, bodyClass = '', mainClass = '' } = Astro.props;
 const desc = frontmatter.description ?? '';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 
@@ -20,7 +24,7 @@ const nav = [
     match: (p: string) => p.startsWith('/progression'),
   },
   {
-    href: '/pokemon/overview',
+    href: '/pokemon',
     label: 'Pokémon',
     match: (p: string) => p.startsWith('/pokemon'),
   },
@@ -39,9 +43,15 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={desc} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>{frontmatter.title} | Pokopia Guide</title>
   </head>
-  <body>
+  <body class:list={['forest-site', bodyClass]}>
     <a class="skip" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="inner">
@@ -61,14 +71,15 @@ const nav = [
         </nav>
       </div>
     </header>
-    <main id="main" class="prose">
+    <main id="main" class:list={['prose', mainClass]}>
       <slot />
     </main>
     <footer class="site-footer">
       <p>
-        Fan-made player guide · Not affiliated with any game publisher. Edit the Markdown in <code
-          >src/pages/</code
-        > to improve this site.
+        Fan-made player guide · Not affiliated with any game publisher. Guides: <code>src/pages/</code> ·
+        Typed game data: <code>src/data/</code> · Shared TypeScript: <code>src/types/</code>, <code
+          >src/lib/</code
+        >.
       </p>
     </footer>
   </body>

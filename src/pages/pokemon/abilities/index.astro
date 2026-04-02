@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getAllAbilities, getSpeciesUsingAbility } from '../../../lib/game-data';
+
+const title = 'Specialties';
+const description = 'Pokopia specialty skills — from pokopia-dex.json with per-species links.';
+const abilityRows = getAllAbilities();
+---
+
+<BaseLayout frontmatter={{ title, description }}>
+  <p>
+    <a href="/pokemon">← Pokémon catalog</a>
+  </p>
+  <h1>{title}</h1>
+  <p>
+    In Pokopia, specialties are the skills Pokémon use around your habitats (Grow, Burn, Water, etc.). Definitions come from
+    <code>src/data/pokopia-dex.json</code> → <code>specialtiesGlossary</code>.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Specialty</th>
+        <th>Summary</th>
+        <th>Species</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        abilityRows.map((a) => {
+          const users = getSpeciesUsingAbility(a.id);
+          return (
+            <tr>
+              <td>
+                <strong>{a.name}</strong>
+              </td>
+              <td>{a.description}</td>
+              <td>
+                {users.length === 0 ? (
+                  <span>—</span>
+                ) : (
+                  <ul class="comma-list">
+                    {users.map((s) => (
+                      <li>
+                        <a href={`/pokemon/${s.slug}`}>{s.name}</a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+</BaseLayout>

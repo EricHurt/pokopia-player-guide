@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeBody from '../components/HomeBody.astro';
+import { homePage } from '../data/copy/home-page';
+---
+
+<BaseLayout frontmatter={{ title: homePage.title, description: homePage.description }}>
+  <HomeBody content={homePage} />
+</BaseLayout>

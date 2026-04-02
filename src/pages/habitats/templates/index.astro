@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getAllHabitatTemplateSummaries } from '../../../lib/game-data';
+
+const title = 'Habitat templates';
+const description = 'All habitat layout names from the compiled Pokédex, with species counts.';
+const rows = getAllHabitatTemplateSummaries();
+---
+
+<BaseLayout frontmatter={{ title, description }}>
+  <p>
+    <a href="/habitats/basics">← Habitat basics</a>
+    · <a href="/habitats/catalog">Blueprints</a>
+  </p>
+  <h1>{title}</h1>
+  <p>
+    Each row links to a page on this site listing which Pokémon use that template. Data comes from the same enrichment pass
+    that fills species pages (environment, time, weather, and these layout names).
+  </p>
+  <table class="template-index-table">
+    <thead>
+      <tr>
+        <th>Template</th>
+        <th>Species</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.map((r) => (
+          <tr>
+            <td>
+              <a href={`/habitats/template/${r.slug}`}>{r.name}</a>
+            </td>
+            <td>{r.speciesCount}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</BaseLayout>

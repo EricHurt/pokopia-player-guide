@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "dev: Astro",
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "new" },
+      "runOptions": { "instanceLimit": 1 },
+      "group": { "kind": "build", "isDefault": false }
+    },
+    {
+      "label": "build: verify (typecheck + build)",
+      "type": "npm",
+      "script": "verify",
+      "problemMatcher": ["$tsc"],
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "preview: dist",
+      "type": "npm",
+      "script": "preview",
+      "problemMatcher": []
+    }
+  ]
+}

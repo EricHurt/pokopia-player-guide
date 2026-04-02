@@ -1,0 +1,27 @@
+---
+import type { HomeContent } from '../types/article';
+
+interface Props {
+  content: HomeContent;
+}
+
+const { content } = Astro.props;
+---
+
+{
+  content.intro.map((p) => <p>{p}</p>)
+}
+
+<h2>{content.sectionsHeading}</h2>
+<ul class="feature-list">
+  {
+    content.featureLinks.map((f) => (
+      <li>
+        <a href={f.href}>{f.label}</a> — {f.blurb}
+      </li>
+    ))
+  }
+</ul>
+
+<h2>{content.forBuildersHeading}</h2>
+{content.forBuildersParagraphs.map((p) => <p>{p}</p>)}

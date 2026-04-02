@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllPokemon } from '../../lib/game-data';
+import { officialArtworkUrl, typeLabelToPillClass } from '../../lib/pokemon-presentation';
+
+const speciesList = getAllPokemon();
+const title = 'Pokémon catalog';
+const description = 'All species from src/data/pokopia-dex.json — edit JSON to update the site.';
+---
+
+<BaseLayout frontmatter={{ title, description }} mainClass="main--wide">
+  <h1>{title}</h1>
+  <div class="pokedex-intro">
+    <p>
+      Wander the grove and tap a friend to visit their cozy habitat scene. Data loads from
+      <code>src/data/pokopia-dex.json</code> (also at <code>/data/pokopia-dex.json</code>). Pokopia uses
+      <strong>specialties</strong> (job skills), not mainline Pokémon Abilities.
+    </p>
+  </div>
+
+  <ul class="pokedex-grid">
+    {
+      speciesList.map((s) => {
+        const types = s.element.split('/').map((t) => t.trim()).filter(Boolean);
+        const blurb = s.summary.replace(/^Specialties:\s*/, '');
+        const artUrl = officialArtworkUrl(s.nationalDex);
+        return (
+          <li class="pokedex-card">
+            <a class="pokedex-card__link" href={`/pokemon/${s.slug}`}>
+              <div class="pokedex-card__top">
+                <span class="pokedex-card__num">#{s.dexNumber ?? '—'}</span>
+              </div>
+              {artUrl ? (
+                <div class="pokedex-card__art">
+                  <img
+                    class="pokedex-card__img"
+                    src={artUrl}
+                    width="112"
+                    height="112"
+                    alt={`${s.name} (official-style artwork)`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+              ) : (
+                <div class="pokedex-card__art pokedex-card__art--empty" aria-hidden="true">
+                  <span class="pokedex-card__art-fallback">?</span>
+                </div>
+              )}
+              <h2 class="pokedex-card__name">{s.name}</h2>
+              <div class="pokedex-card__types">
+                {types.map((t) => (
+                  <span class:list={['type-pill', typeLabelToPillClass(t)]}>{t}</span>
+                ))}
+              </div>
+              <p class="pokedex-card__blurb">{blurb}</p>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+  <p>
+    <a href="/pokemon/abilities">Specialties glossary →</a>
+  </p>
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleBody from '../../components/ArticleBody.astro';
+import { earlyGameArticle } from '../../data/copy/progression';
+
+const article = earlyGameArticle;
+---
+
+<BaseLayout frontmatter={{ title: article.title, description: article.description }}>
+  <ArticleBody
+    article={article}
+    footerLinks={[
+      { href: '/progression/getting-started', label: '← Getting started' },
+    ]}
+  />
+</BaseLayout>
