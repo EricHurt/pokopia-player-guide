@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+const desc = frontmatter.description ?? '';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const nav = [
+  { href: '/', label: 'Home', match: (p: string) => p === '/' },
+  {
+    href: '/progression/getting-started',
+    label: 'Progression',
+    match: (p: string) => p.startsWith('/progression'),
+  },
+  {
+    href: '/pokemon/overview',
+    label: 'Pokémon',
+    match: (p: string) => p.startsWith('/pokemon'),
+  },
+  {
+    href: '/habitats/basics',
+    label: 'Habitats',
+    match: (p: string) => p.startsWith('/habitats'),
+  },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={desc} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{frontmatter.title} | Pokopia Guide</title>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="inner">
+        <a class="brand" href="/">Pokopia guide</a>
+        <nav aria-label="Main">
+          <ul>
+            {
+              nav.map(({ href, label, match }) => (
+                <li>
+                  <a href={href} class:list={['nav-link', { active: match(path) }]}>
+                    {label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="main" class="prose">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <p>
+        Fan-made player guide · Not affiliated with any game publisher. Edit the Markdown in <code
+          >src/pages/</code
+        > to improve this site.
+      </p>
+    </footer>
+  </body>
+</html>
