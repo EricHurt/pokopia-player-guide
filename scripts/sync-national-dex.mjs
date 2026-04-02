@@ -3,7 +3,9 @@
  * (used for official-artwork URLs). Pokopia `dexNumber` is regional — do not use for sprites.
  *
  * The value matches main-series national Pokédex for most species; alternate forms use
- * PokéAPI's per-form id (still the correct artwork index).
+ * PokéAPI's per-form id where that maps to `official-artwork/{id}.png`. East Sea Shellos/Gastrodon
+ * resolve to shellos/gastrodon (422/423); artwork overrides are in `src/lib/pokemon-presentation.ts`
+ * (Bulbagarden Ken Sugimori east-form PNGs; PokéAPI has no east official-artwork files).
  *
  * Run: npm run sync:national-dex
  * Writes: src/data/pokopia-dex.json + public/data/pokopia-dex.json

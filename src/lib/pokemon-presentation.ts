@@ -52,10 +52,46 @@ export function habitatThemeFromTypes(element: string): HabitatVisualTheme {
 const OFFICIAL_ART =
   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork';
 
-/** Official-style artwork from PokéAPI sprites (`nationalDex` on each species, not regional `dexNumber`). */
+/**
+ * Slugs whose artwork is not `official-artwork/{nationalDex}.png` (wrong or missing in that folder).
+ * East Sea Shellos/Gastrodon: PokéAPI has no east official-artwork PNG; use Bulbagarden’s Ken Sugimori art
+ * (same illustration style as the Scholastic Super Extra Deluxe Essential Handbook and Bulbapedia).
+ */
+const SPECIES_ARTWORK_URL_BY_SLUG: Record<string, string> = {
+  'shellos-east-sea':
+    'https://archives.bulbagarden.net/media/upload/d/db/0422Shellos-East.png',
+  'gastrodon-east-sea':
+    'https://archives.bulbagarden.net/media/upload/5/57/0423Gastrodon-East.png',
+};
+
+/**
+ * Official-style artwork from PokéAPI sprites (`nationalDex` = PokéAPI `pokemon.id`, not regional `dexNumber`).
+ */
 export function officialArtworkUrl(nationalDex?: number): string | null {
   if (nationalDex == null || !Number.isFinite(nationalDex) || nationalDex < 1) return null;
   return `${OFFICIAL_ART}/${nationalDex}.png`;
+}
+
+/**
+ * Pokopia story variants that share base species `nationalDex` (Pikachu, Snorlax, …) but should look
+ * distinct: same PokéAPI official artwork, different pose via CSS on `speciesArtworkPoseWrapClass`.
+ */
+const SPECIES_ART_POSE_SLUGS: Record<string, true> = {
+  peakychu: true,
+  mosslax: true,
+};
+
+/** Optional wrapper classes for catalog / habitat artwork (mirror, tilt). */
+export function speciesArtworkPoseWrapClass(slug: string): string | undefined {
+  if (!SPECIES_ART_POSE_SLUGS[slug]) return undefined;
+  return `species-art-wrap species-art-wrap--${slug}`;
+}
+
+/** Artwork URL for catalog / detail (repo override, then official-artwork from `nationalDex`). */
+export function speciesArtworkUrl(slug: string, nationalDex?: number): string | null {
+  const fixed = SPECIES_ARTWORK_URL_BY_SLUG[slug];
+  if (fixed) return fixed;
+  return officialArtworkUrl(nationalDex);
 }
 
 const TYPE_PILL: Record<string, string> = {

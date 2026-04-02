@@ -1,9 +1,27 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllPokemon } from '../../lib/game-data';
-import { officialArtworkUrl, typeLabelToPillClass } from '../../lib/pokemon-presentation';
+import {
+  speciesArtworkPoseWrapClass,
+  speciesArtworkUrl,
+  typeLabelToPillClass,
+} from '../../lib/pokemon-presentation';
 
 const speciesList = getAllPokemon();
+
+/** First A–Z bucket for catalog browse (accent-stripped). */
+function azLetter(name: string): string {
+  const base = name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+  const c = base.charAt(0).toUpperCase();
+  return /^[A-Z]$/.test(c) ? c : '#';
+}
+
+const azAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const azHasOther = speciesList.some((s) => azLetter(s.name) === '#');
+
 const title = 'Pokémon catalog';
 const description = 'All species from src/data/pokopia-dex.json — edit JSON to update the site.';
 ---
@@ -18,29 +36,104 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
     </p>
   </div>
 
+  <div class="pokedex-toolbar">
+    <label class="pokedex-search-label" for="pokedex-search-input">Search</label>
+    <input
+      id="pokedex-search-input"
+      class="pokedex-search-input"
+      type="search"
+      placeholder="Name, #, type, or specialty…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <p class="pokedex-search-status" id="pokedex-search-status" aria-live="polite"></p>
+  </div>
+
+  <div class="pokedex-toolbar pokedex-toolbar--dex">
+    <label class="pokedex-search-label" for="pokedex-dex-input">Pokopia #</label>
+    <input
+      id="pokedex-dex-input"
+      class="pokedex-search-input pokedex-search-input--dex"
+      type="text"
+      inputmode="numeric"
+      placeholder="Regional dex (e.g. 79)"
+      autocomplete="off"
+      spellcheck="false"
+      aria-describedby="pokedex-dex-hint"
+    />
+    <p id="pokedex-dex-hint" class="pokedex-dex-hint">
+      Filters by Pokopia regional <code>dexNumber</code>, not national Pokédex.
+    </p>
+  </div>
+
+  <div
+    class="pokedex-az"
+    id="pokedex-az"
+    role="group"
+    aria-label="Filter by first letter of name"
+  >
+    <span class="pokedex-az__label" id="pokedex-az-label">A–Z</span>
+    <div class="pokedex-az__buttons" aria-labelledby="pokedex-az-label">
+      <button
+        type="button"
+        class="pokedex-az__btn pokedex-az__btn--all is-active"
+        data-az-filter=""
+        aria-pressed="true"
+      >
+        All
+      </button>
+      {
+        azAlphabet.map((L) => (
+          <button type="button" class="pokedex-az__btn" data-az-filter={L} aria-pressed="false">
+            {L}
+          </button>
+        ))
+      }
+      {
+        azHasOther ? (
+          <button type="button" class="pokedex-az__btn" data-az-filter="#" aria-pressed="false">
+            #
+          </button>
+        ) : null
+      }
+    </div>
+  </div>
+
+  <p class="pokedex-no-results" id="pokedex-no-results" hidden>No Pokémon match your search.</p>
+
   <ul class="pokedex-grid">
     {
       speciesList.map((s) => {
         const types = s.element.split('/').map((t) => t.trim()).filter(Boolean);
         const blurb = s.summary.replace(/^Specialties:\s*/, '');
-        const artUrl = officialArtworkUrl(s.nationalDex);
+        const searchBlob = [s.name, s.slug, s.dexNumber ?? '', s.element, blurb].join(' ').toLowerCase();
+        const artUrl = speciesArtworkUrl(s.slug, s.nationalDex);
+        const poseWrapClass = speciesArtworkPoseWrapClass(s.slug);
         return (
-          <li class="pokedex-card">
+          <li
+            class="pokedex-card"
+            data-pokedex-card
+            data-search={searchBlob}
+            data-az={azLetter(s.name)}
+            data-pokopia-dex={s.dexNumber ?? ''}
+          >
             <a class="pokedex-card__link" href={`/pokemon/${s.slug}`}>
               <div class="pokedex-card__top">
                 <span class="pokedex-card__num">#{s.dexNumber ?? '—'}</span>
               </div>
               {artUrl ? (
                 <div class="pokedex-card__art">
-                  <img
-                    class="pokedex-card__img"
-                    src={artUrl}
-                    width="112"
-                    height="112"
-                    alt={`${s.name} (official-style artwork)`}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  <span class:list={['pokedex-card__img-clip', poseWrapClass]}>
+                    <img
+                      class="pokedex-card__img"
+                      src={artUrl}
+                      width="112"
+                      height="112"
+                      alt={`${s.name} (official-style artwork)`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
                 </div>
               ) : (
                 <div class="pokedex-card__art pokedex-card__art--empty" aria-hidden="true">
@@ -63,4 +156,92 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
   <p>
     <a href="/pokemon/abilities">Specialties glossary →</a>
   </p>
+
+  <script is:inline>
+    (function () {
+      var input = document.getElementById('pokedex-search-input');
+      var dexInput = document.getElementById('pokedex-dex-input');
+      var statusEl = document.getElementById('pokedex-search-status');
+      var emptyEl = document.getElementById('pokedex-no-results');
+      var azBar = document.getElementById('pokedex-az');
+      var cards = document.querySelectorAll('[data-pokedex-card]');
+      if (!input || !dexInput || !statusEl || !emptyEl || !azBar || !cards.length) return;
+
+      var total = cards.length;
+      var selectedLetter = '';
+      var azButtons = azBar.querySelectorAll('[data-az-filter]');
+
+      function normQuery(raw) {
+        var q = String(raw || '')
+          .trim()
+          .toLowerCase();
+        if (q.charAt(0) === '#') q = q.slice(1);
+        return q;
+      }
+
+      /** Pokopia regional dex: digits only, leading zeros stripped (79 matches 079). */
+      function normPokopiaDex(raw) {
+        var d = String(raw || '').replace(/\D/g, '');
+        if (!d) return '';
+        var n = parseInt(d, 10);
+        return n > 0 || d === '0' ? String(n) : '';
+      }
+
+      function setAzActive(letter) {
+        selectedLetter = letter;
+        for (var i = 0; i < azButtons.length; i++) {
+          var b = azButtons[i];
+          var val = b.getAttribute('data-az-filter') || '';
+          var on = val === letter;
+          b.classList.toggle('is-active', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        }
+      }
+
+      function apply() {
+        var q = normQuery(input.value);
+        var letter = selectedLetter;
+        var dexWant = normPokopiaDex(dexInput.value);
+        var visible = 0;
+        for (var i = 0; i < cards.length; i++) {
+          var li = cards[i];
+          var hay = (li.getAttribute('data-search') || '').toLowerCase();
+          var az = li.getAttribute('data-az') || '';
+          var letterOk = !letter || az === letter;
+          var textOk = !q || hay.indexOf(q) !== -1;
+          var cardDex = normPokopiaDex(li.getAttribute('data-pokopia-dex') || '');
+          var dexOk = !dexWant || cardDex === dexWant;
+          var match = letterOk && textOk && dexOk;
+          li.hidden = !match;
+          if (match) visible++;
+        }
+
+        var filtering = !!(q || letter || dexWant);
+        if (!filtering) {
+          statusEl.textContent = '';
+        } else if (visible === 0) {
+          statusEl.textContent = 'No matches';
+        } else {
+          statusEl.textContent = visible + ' of ' + total + ' shown';
+        }
+        emptyEl.hidden = !(filtering && visible === 0);
+      }
+
+      for (var j = 0; j < azButtons.length; j++) {
+        azButtons[j].addEventListener('click', function () {
+          var val = this.getAttribute('data-az-filter') || '';
+          if (selectedLetter === val) {
+            if (val !== '') setAzActive('');
+          } else {
+            setAzActive(val);
+          }
+          apply();
+        });
+      }
+
+      input.addEventListener('input', apply);
+      input.addEventListener('search', apply);
+      dexInput.addEventListener('input', apply);
+    })();
+  </script>
 </BaseLayout>

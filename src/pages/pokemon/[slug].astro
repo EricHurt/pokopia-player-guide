@@ -3,7 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAbilitiesForSpecies, getAllPokemon, getPokemonBySlug } from '../../lib/game-data';
 import {
   habitatThemeFromTypes,
-  officialArtworkUrl,
+  speciesArtworkPoseWrapClass,
+  speciesArtworkUrl,
   typeLabelToPillClass,
 } from '../../lib/pokemon-presentation';
 
@@ -22,7 +23,8 @@ const abilities = getAbilitiesForSpecies(species);
 const title = species.name;
 const description = species.summary;
 const theme = habitatThemeFromTypes(species.element);
-const artUrl = officialArtworkUrl(species.nationalDex);
+const artUrl = speciesArtworkUrl(species.slug, species.nationalDex);
+const poseWrapClass = speciesArtworkPoseWrapClass(species.slug);
 const typeLabels = species.element.split('/').map((t) => t.trim()).filter(Boolean);
 
 const hasStructuredHabitat =
@@ -58,18 +60,20 @@ function peLabel(pe: string | readonly string[] | undefined): string {
       <div class="habitat-leaf habitat-leaf--2" aria-hidden="true" />
       <div class="habitat-leaf habitat-leaf--3" aria-hidden="true" />
 
-      <button type="button" class="habitat-mon" aria-label={`Say hi to ${species.name} (playful bounce)`}>
+      <button type="button" class="habitat-mon" aria-label={`Trigger ${species.name} attack animation`}>
         {
           artUrl ? (
-            <img
-              class="habitat-mon__img"
-              src={artUrl}
-              width="256"
-              height="256"
-              alt={`${species.name} official-style artwork`}
-              loading="eager"
-              decoding="async"
-            />
+            <span class:list={['habitat-mon__img-clip', poseWrapClass]}>
+              <img
+                class="habitat-mon__img"
+                src={artUrl}
+                width="256"
+                height="256"
+                alt={`${species.name} official-style artwork`}
+                loading="eager"
+                decoding="async"
+              />
+            </span>
           ) : (
             <div class="habitat-mon__fallback">
               <span aria-hidden="true">🌿</span>
@@ -187,10 +191,13 @@ function peLabel(pe: string | readonly string[] | undefined): string {
   const btn = document.querySelector<HTMLButtonElement>('.habitat-mon');
   const img = document.querySelector<HTMLImageElement>('.habitat-mon__img');
   if (btn && img) {
+    img.addEventListener('animationend', (e) => {
+      if (e.animationName === 'mon-attack-tap') img.classList.remove('is-attack');
+    });
     btn.addEventListener('click', () => {
-      img.classList.remove('is-bounce');
+      img.classList.remove('is-attack');
       void img.offsetWidth;
-      img.classList.add('is-bounce');
+      img.classList.add('is-attack');
     });
   }
 </script>
