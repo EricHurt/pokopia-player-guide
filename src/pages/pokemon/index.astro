@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAllPokemon } from '../../lib/game-data';
+import { getAllHabitatTemplateSummaries, getAllPokemon } from '../../lib/game-data';
 import {
   speciesArtworkPoseWrapClass,
   speciesArtworkUrl,
@@ -8,6 +8,9 @@ import {
 } from '../../lib/pokemon-presentation';
 
 const speciesList = getAllPokemon();
+const habitatOptions = getAllHabitatTemplateSummaries()
+  .slice()
+  .sort((a, b) => a.name.localeCompare(b.name));
 
 /** First A–Z bucket for catalog browse (accent-stripped). */
 function azLetter(name: string): string {
@@ -66,6 +69,24 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
     </p>
   </div>
 
+  <div class="pokedex-toolbar pokedex-toolbar--habitat">
+    <label class="pokedex-search-label" for="pokedex-habitat-select">Habitat</label>
+    <select id="pokedex-habitat-select" class="pokedex-search-select" aria-describedby="pokedex-habitat-hint">
+      <option value="">All habitat templates</option>
+      {
+        habitatOptions.map((h) => (
+          <option value={h.slug}>
+            {h.name} ({h.speciesCount})
+          </option>
+        ))
+      }
+    </select>
+    <p id="pokedex-habitat-hint" class="pokedex-habitat-hint">
+      Layout names from the <a href="/habitats/templates">habitat templates</a> list. Pokémon with no template skip
+      when a specific habitat is chosen.
+    </p>
+  </div>
+
   <div
     class="pokedex-az"
     id="pokedex-az"
@@ -107,6 +128,7 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
         const types = s.element.split('/').map((t) => t.trim()).filter(Boolean);
         const blurb = s.summary.replace(/^Specialties:\s*/, '');
         const searchBlob = [s.name, s.slug, s.dexNumber ?? '', s.element, blurb].join(' ').toLowerCase();
+        const habitatSlugList = (s.habitatTemplates ?? []).map((h) => h.slug).join(' ');
         const artUrl = speciesArtworkUrl(s.slug, s.nationalDex);
         const poseWrapClass = speciesArtworkPoseWrapClass(s.slug);
         return (
@@ -116,6 +138,7 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
             data-search={searchBlob}
             data-az={azLetter(s.name)}
             data-pokopia-dex={s.dexNumber ?? ''}
+            data-habitat-slugs={habitatSlugList}
           >
             <a class="pokedex-card__link" href={`/pokemon/${s.slug}`}>
               <div class="pokedex-card__top">
@@ -161,11 +184,12 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
     (function () {
       var input = document.getElementById('pokedex-search-input');
       var dexInput = document.getElementById('pokedex-dex-input');
+      var habitatSelect = document.getElementById('pokedex-habitat-select');
       var statusEl = document.getElementById('pokedex-search-status');
       var emptyEl = document.getElementById('pokedex-no-results');
       var azBar = document.getElementById('pokedex-az');
       var cards = document.querySelectorAll('[data-pokedex-card]');
-      if (!input || !dexInput || !statusEl || !emptyEl || !azBar || !cards.length) return;
+      if (!input || !dexInput || !habitatSelect || !statusEl || !emptyEl || !azBar || !cards.length) return;
 
       var total = cards.length;
       var selectedLetter = '';
@@ -198,10 +222,23 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
         }
       }
 
+      /** True if card lists the given habitat slug (space-separated `data-habitat-slugs`). */
+      function cardHasHabitatSlug(slugsAttr, wantSlug) {
+        if (!wantSlug) return true;
+        var s = String(slugsAttr || '').trim();
+        if (!s) return false;
+        var tokens = s.split(/\s+/);
+        for (var t = 0; t < tokens.length; t++) {
+          if (tokens[t] === wantSlug) return true;
+        }
+        return false;
+      }
+
       function apply() {
         var q = normQuery(input.value);
         var letter = selectedLetter;
         var dexWant = normPokopiaDex(dexInput.value);
+        var habitatWant = String(habitatSelect.value || '').trim();
         var visible = 0;
         for (var i = 0; i < cards.length; i++) {
           var li = cards[i];
@@ -211,12 +248,13 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
           var textOk = !q || hay.indexOf(q) !== -1;
           var cardDex = normPokopiaDex(li.getAttribute('data-pokopia-dex') || '');
           var dexOk = !dexWant || cardDex === dexWant;
-          var match = letterOk && textOk && dexOk;
+          var habitatOk = cardHasHabitatSlug(li.getAttribute('data-habitat-slugs'), habitatWant);
+          var match = letterOk && textOk && dexOk && habitatOk;
           li.hidden = !match;
           if (match) visible++;
         }
 
-        var filtering = !!(q || letter || dexWant);
+        var filtering = !!(q || letter || dexWant || habitatWant);
         if (!filtering) {
           statusEl.textContent = '';
         } else if (visible === 0) {
@@ -242,6 +280,7 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
       input.addEventListener('input', apply);
       input.addEventListener('search', apply);
       dexInput.addEventListener('input', apply);
+      habitatSelect.addEventListener('change', apply);
     })();
   </script>
 </BaseLayout>

@@ -15,6 +15,8 @@ interface Props {
 const { frontmatter, bodyClass = '', mainClass = '' } = Astro.props;
 const desc = frontmatter.description ?? '';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+/** PWA files exist only after `astro build` / production deploy (see `@vite-pwa/astro`). */
+const pwaEnabled = import.meta.env.PROD;
 
 const nav = [
   { href: '/', label: 'Home', match: (p: string) => p === '/' },
@@ -42,7 +44,14 @@ const nav = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={desc} />
+    <meta name="theme-color" content="#2a8f5c" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Pokopia Guide" />
+    <meta name="application-name" content="Pokopia Guide" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    {pwaEnabled ? <link rel="manifest" href="/manifest.webmanifest" /> : null}
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -50,6 +59,7 @@ const nav = [
       rel="stylesheet"
     />
     <title>{frontmatter.title} | Pokopia Guide</title>
+    {pwaEnabled ? <script src="/registerSW.js" defer></script> : null}
   </head>
   <body class:list={['forest-site', bodyClass]}>
     <a class="skip" href="#main">Skip to content</a>

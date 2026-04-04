@@ -1496,11 +1496,11 @@
       "habitats": [
         {
           "slug": "nothin-but-poke-balls",
-          "name": "Nothin&#x27; but Poke Balls",
+          "name": "Nothin' but Poke Balls",
           "href": "https://pokopiaguide.com/habitat/nothin-but-poke-balls"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Bright\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Nothin&#x27; but Poke Balls",
+      "habitatBuildNotes": "Preferred environment: Bright\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Nothin' but Poke Balls",
       "preferredEnvironment": "Bright",
       "timeOfDay": [
         "Dawn",
@@ -1530,7 +1530,7 @@
       "habitats": [
         {
           "slug": "professor-s-treasure-trove",
-          "name": "Professor&#x27;s treasure trove",
+          "name": "Professor's treasure trove",
           "href": "https://pokopiaguide.com/habitat/professor-s-treasure-trove"
         },
         {
@@ -1539,7 +1539,7 @@
           "href": "https://pokopiaguide.com/habitat/bench-with-greenery"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Moist\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Professor&#x27;s treasure trove; Bench with greenery",
+      "habitatBuildNotes": "Preferred environment: Moist\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Professor's treasure trove; Bench with greenery",
       "preferredEnvironment": "Moist",
       "timeOfDay": [
         "Dawn",
@@ -2495,7 +2495,7 @@
       "habitats": [
         {
           "slug": "lumberjack-s-workplace",
-          "name": "Lumberjack&#x27;s workplace",
+          "name": "Lumberjack's workplace",
           "href": "https://pokopiaguide.com/habitat/lumberjack-s-workplace"
         },
         {
@@ -2504,7 +2504,7 @@
           "href": "https://pokopiaguide.com/habitat/crazy-log-handicrafts"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Lumberjack&#x27;s workplace; Crazy log handicrafts",
+      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Lumberjack's workplace; Crazy log handicrafts",
       "preferredEnvironment": "Dark",
       "timeOfDay": [
         "Dawn",
@@ -2532,7 +2532,7 @@
       "habitats": [
         {
           "slug": "lumberjack-s-workplace",
-          "name": "Lumberjack&#x27;s workplace",
+          "name": "Lumberjack's workplace",
           "href": "https://pokopiaguide.com/habitat/lumberjack-s-workplace"
         },
         {
@@ -2541,7 +2541,7 @@
           "href": "https://pokopiaguide.com/habitat/crazy-log-handicrafts"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Lumberjack&#x27;s workplace; Crazy log handicrafts",
+      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Lumberjack's workplace; Crazy log handicrafts",
       "preferredEnvironment": "Dark",
       "timeOfDay": [
         "Dawn",
@@ -2570,7 +2570,7 @@
       "habitats": [
         {
           "slug": "lumberjack-s-workplace",
-          "name": "Lumberjack&#x27;s workplace",
+          "name": "Lumberjack's workplace",
           "href": "https://pokopiaguide.com/habitat/lumberjack-s-workplace"
         },
         {
@@ -2579,7 +2579,7 @@
           "href": "https://pokopiaguide.com/habitat/crazy-log-handicrafts"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Lumberjack&#x27;s workplace; Crazy log handicrafts",
+      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Lumberjack's workplace; Crazy log handicrafts",
       "preferredEnvironment": "Dark",
       "timeOfDay": [
         "Dawn",
@@ -2817,11 +2817,11 @@
       "habitats": [
         {
           "slug": "nature-s-market",
-          "name": "Nature&#x27;s market",
+          "name": "Nature's market",
           "href": "https://pokopiaguide.com/habitat/nature-s-market"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Bright\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Nature&#x27;s market",
+      "habitatBuildNotes": "Preferred environment: Bright\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Nature's market",
       "preferredEnvironment": "Bright",
       "timeOfDay": [
         "Dawn",
@@ -6721,11 +6721,11 @@
       "habitats": [
         {
           "slug": "chef-s-kitchen",
-          "name": "Chef&#x27;s kitchen",
+          "name": "Chef's kitchen",
           "href": "https://pokopiaguide.com/habitat/chef-s-kitchen"
         }
       ],
-      "habitatBuildNotes": "Time of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Chef&#x27;s kitchen",
+      "habitatBuildNotes": "Time of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Chef's kitchen",
       "timeOfDay": [
         "Dawn",
         "Daytime",
@@ -7029,11 +7029,11 @@
       "habitats": [
         {
           "slug": "auspicious-knight-s-shrine",
-          "name": "Auspicious knight&#x27;s shrine",
+          "name": "Auspicious knight's shrine",
           "href": "https://pokopiaguide.com/habitat/auspicious-knight-s-shrine"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Warm\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Auspicious knight&#x27;s shrine",
+      "habitatBuildNotes": "Preferred environment: Warm\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Auspicious knight's shrine",
       "preferredEnvironment": "Warm",
       "timeOfDay": [
         "Dawn",
@@ -7062,11 +7062,11 @@
       "habitats": [
         {
           "slug": "malicious-knight-s-shrine",
-          "name": "Malicious knight&#x27;s shrine",
+          "name": "Malicious knight's shrine",
           "href": "https://pokopiaguide.com/habitat/malicious-knight-s-shrine"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Warm\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Malicious knight&#x27;s shrine",
+      "habitatBuildNotes": "Preferred environment: Warm\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Malicious knight's shrine",
       "preferredEnvironment": "Warm",
       "timeOfDay": [
         "Dawn",
@@ -7455,11 +7455,11 @@
         },
         {
           "slug": "fortune-teller-s-table",
-          "name": "Fortune-teller&#x27;s table",
+          "name": "Fortune-teller's table",
           "href": "https://pokopiaguide.com/habitat/fortune-teller-s-table"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Surging psychic power; Fortune-teller&#x27;s table",
+      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Surging psychic power; Fortune-teller's table",
       "preferredEnvironment": "Dark",
       "timeOfDay": [
         "Dawn",
@@ -7487,11 +7487,11 @@
       "habitats": [
         {
           "slug": "fortune-teller-s-table",
-          "name": "Fortune-teller&#x27;s table",
+          "name": "Fortune-teller's table",
           "href": "https://pokopiaguide.com/habitat/fortune-teller-s-table"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Fortune-teller&#x27;s table",
+      "habitatBuildNotes": "Preferred environment: Dark\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Fortune-teller's table",
       "preferredEnvironment": "Dark",
       "timeOfDay": [
         "Dawn",
@@ -7629,11 +7629,11 @@
       "habitats": [
         {
           "slug": "researcher-s-desk",
-          "name": "Researcher&#x27;s desk",
+          "name": "Researcher's desk",
           "href": "https://pokopiaguide.com/habitat/researcher-s-desk"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Bright\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Researcher&#x27;s desk",
+      "habitatBuildNotes": "Preferred environment: Bright\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Researcher's desk",
       "preferredEnvironment": "Bright",
       "timeOfDay": [
         "Dawn",
@@ -8578,11 +8578,11 @@
       "habitats": [
         {
           "slug": "professor-s-apprentice-program",
-          "name": "Professor&#x27;s apprentice program",
+          "name": "Professor's apprentice program",
           "href": "https://pokopiaguide.com/habitat/professor-s-apprentice-program"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Cool\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Professor&#x27;s apprentice program",
+      "habitatBuildNotes": "Preferred environment: Cool\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Professor's apprentice program",
       "preferredEnvironment": "Cool",
       "timeOfDay": [
         "Dawn",
@@ -8612,11 +8612,11 @@
       "habitats": [
         {
           "slug": "gamer-s-paradise",
-          "name": "Gamer&#x27;s paradise",
+          "name": "Gamer's paradise",
           "href": "https://pokopiaguide.com/habitat/gamer-s-paradise"
         }
       ],
-      "habitatBuildNotes": "Preferred environment: Cool\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Gamer&#x27;s paradise",
+      "habitatBuildNotes": "Preferred environment: Cool\n\nTime of day: Dawn, Daytime, Dusk, Nighttime\n\nWeather: Sunny, Cloudy, Rainy\n\nHabitat templates: Gamer's paradise",
       "preferredEnvironment": "Cool",
       "timeOfDay": [
         "Dawn",
@@ -10202,7 +10202,7 @@
     {
       "name": "Hoppip",
       "slug": "hoppip",
-      "dexNumber": "10001",
+      "dexNumber": "E-001",
       "types": [
         "Grass",
         "Flying"
@@ -10235,7 +10235,7 @@
     {
       "name": "Skiploom",
       "slug": "skiploom",
-      "dexNumber": "10002",
+      "dexNumber": "E-002",
       "types": [
         "Grass",
         "Flying"
@@ -10273,7 +10273,7 @@
     {
       "name": "Jumpluff",
       "slug": "jumpluff",
-      "dexNumber": "10003",
+      "dexNumber": "E-003",
       "types": [
         "Grass",
         "Flying"

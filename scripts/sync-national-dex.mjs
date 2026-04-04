@@ -5,7 +5,7 @@
  * The value matches main-series national Pokédex for most species; alternate forms use
  * PokéAPI's per-form id where that maps to `official-artwork/{id}.png`. East Sea Shellos/Gastrodon
  * resolve to shellos/gastrodon (422/423); artwork overrides are in `src/lib/pokemon-presentation.ts`
- * (Bulbagarden Ken Sugimori east-form PNGs; PokéAPI has no east official-artwork files).
+ * (local Ken Sugimori east-form PNGs in `public/images/pokemon-art/`; PokéAPI has no east official-artwork files).
  *
  * Run: npm run sync:national-dex
  * Writes: src/data/pokopia-dex.json + public/data/pokopia-dex.json

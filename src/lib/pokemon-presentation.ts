@@ -54,14 +54,13 @@ const OFFICIAL_ART =
 
 /**
  * Slugs whose artwork is not `official-artwork/{nationalDex}.png` (wrong or missing in that folder).
- * East Sea Shellos/Gastrodon: PokéAPI has no east official-artwork PNG; use Bulbagarden’s Ken Sugimori art
- * (same illustration style as the Scholastic Super Extra Deluxe Essential Handbook and Bulbapedia).
+ * East Sea Shellos/Gastrodon: PokéAPI has no east official-artwork PNG. We ship Ken Sugimori east-form
+ * PNGs under `public/images/pokemon-art/` so `<img>` always loads (hotlinking Bulbagarden often fails
+ * in browsers, which leaves only the `alt` text visible).
  */
 const SPECIES_ARTWORK_URL_BY_SLUG: Record<string, string> = {
-  'shellos-east-sea':
-    'https://archives.bulbagarden.net/media/upload/d/db/0422Shellos-East.png',
-  'gastrodon-east-sea':
-    'https://archives.bulbagarden.net/media/upload/5/57/0423Gastrodon-East.png',
+  'shellos-east-sea': '/images/pokemon-art/shellos-east.png',
+  'gastrodon-east-sea': '/images/pokemon-art/gastrodon-east.png',
 };
 
 /**

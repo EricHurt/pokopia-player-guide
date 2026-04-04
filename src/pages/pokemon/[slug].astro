@@ -1,6 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getAbilitiesForSpecies, getAllPokemon, getPokemonBySlug } from '../../lib/game-data';
+import {
+  getAbilitiesForSpecies,
+  getAllPokemon,
+  getPokemonBySlug,
+  getPokemonDexNeighbors,
+} from '../../lib/game-data';
+import { habitatPreviewImageUrl } from '../../lib/habitat-art';
 import {
   habitatThemeFromTypes,
   speciesArtworkPoseWrapClass,
@@ -20,6 +26,7 @@ if (!species) {
 }
 
 const abilities = getAbilitiesForSpecies(species);
+const { prev: prevMon, next: nextMon } = getPokemonDexNeighbors(species.slug);
 const title = species.name;
 const description = species.summary;
 const theme = habitatThemeFromTypes(species.element);
@@ -41,6 +48,33 @@ function peLabel(pe: string | readonly string[] | undefined): string {
 ---
 
 <BaseLayout frontmatter={{ title, description }} mainClass="main--wide">
+  {
+    prevMon ? (
+      <a
+        class="pokemon-nav pokemon-nav--prev"
+        href={`/pokemon/${prevMon.slug}`}
+        rel="prev"
+        aria-label={`Previous Pokémon: ${prevMon.name}`}
+        title={prevMon.name}
+      >
+        <span aria-hidden="true">‹</span>
+      </a>
+    ) : null
+  }
+  {
+    nextMon ? (
+      <a
+        class="pokemon-nav pokemon-nav--next"
+        href={`/pokemon/${nextMon.slug}`}
+        rel="next"
+        aria-label={`Next Pokémon: ${nextMon.name}`}
+        title={nextMon.name}
+      >
+        <span aria-hidden="true">›</span>
+      </a>
+    ) : null
+  }
+
   <div class="habitat-adventure full-bleed">
     <div class="habitat-scene" data-habitat-theme={theme} aria-label={`Habitat mood for ${species.name}`}>
       <div class="habitat-sky" />
@@ -143,13 +177,39 @@ function peLabel(pe: string | readonly string[] | undefined): string {
             <a href="/habitats/templates">template index</a> entry listing every species that shares that layout. Use the
             in-game builder for exact materials.
           </p>
-          <ul>
-            {species.habitatTemplates.map((h) => (
-              <li>
-                <a href={h.href}>{h.name}</a>
-              </li>
-            ))}
+          <ul class="habitat-template-list">
+            {species.habitatTemplates.map((h) => {
+              const previewUrl = habitatPreviewImageUrl(h.slug);
+              return (
+                <li class="habitat-template-card">
+                  <a class="habitat-template-card__hit" href={h.href}>
+                    {previewUrl ? (
+                      <span class="habitat-template-card__media">
+                        <img
+                          class="habitat-template-card__img"
+                          src={previewUrl}
+                          alt={`${h.name} habitat (in-game style preview)`}
+                          width="160"
+                          height="100"
+                          loading="lazy"
+                          decoding="async"
+                          referrerpolicy="no-referrer"
+                        />
+                      </span>
+                    ) : (
+                      <span class="habitat-template-card__media habitat-template-card__media--empty" aria-hidden="true" />
+                    )}
+                    <span class="habitat-template-card__title">{h.name}</span>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
+          <p class="habitat-preview-credit">
+            Habitat form art from the{' '}
+            <a href="https://www.serebii.net/pokemonpokopia/habitatdex/">Serebii.net Pokopia habitat dex</a>
+            (fan reference; not affiliated).
+          </p>
         </>
       ) : null
     }
@@ -200,4 +260,30 @@ function peLabel(pe: string | readonly string[] | undefined): string {
       img.classList.add('is-attack');
     });
   }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    const el = e.target;
+    if (
+      el instanceof HTMLInputElement ||
+      el instanceof HTMLTextAreaElement ||
+      el instanceof HTMLSelectElement ||
+      (el instanceof HTMLElement && el.isContentEditable)
+    ) {
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      const a = document.querySelector<HTMLAnchorElement>('.pokemon-nav--prev');
+      if (a) {
+        e.preventDefault();
+        a.click();
+      }
+    } else if (e.key === 'ArrowRight') {
+      const a = document.querySelector<HTMLAnchorElement>('.pokemon-nav--next');
+      if (a) {
+        e.preventDefault();
+        a.click();
+      }
+    }
+  });
 </script>

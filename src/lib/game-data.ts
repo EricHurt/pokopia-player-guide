@@ -97,6 +97,20 @@ export function getPokemonBySlug(slug: Slug): PokemonSpecies | undefined {
   return pokemonBySlug.get(slug);
 }
 
+/** Neighbors in compiled dex array order (matches Pokémon catalog / `pokopia-dex.json` species list). */
+export function getPokemonDexNeighbors(slug: Slug): {
+  prev?: { slug: string; name: string };
+  next?: { slug: string; name: string };
+} {
+  const idx = pokemonSpecies.findIndex((p) => p.slug === slug);
+  if (idx === -1) return {};
+  const before = pokemonSpecies[idx - 1];
+  const after = pokemonSpecies[idx + 1];
+  const prev = before ? { slug: before.slug, name: before.name } : undefined;
+  const next = after ? { slug: after.slug, name: after.name } : undefined;
+  return { prev, next };
+}
+
 export function getAllAbilities(): readonly Ability[] {
   return abilities;
 }

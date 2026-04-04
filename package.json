@@ -12,6 +12,7 @@
     "verify": "npm run typecheck && npm run build",
     "enrich:habitats": "node scripts/enrich-habitats.mjs",
     "sync:national-dex": "node scripts/sync-national-dex.mjs",
+    "build:habitat-previews": "node scripts/build-habitat-preview-urls.mjs",
     "astro": "astro"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.0",
+    "@vite-pwa/astro": "^1.2.0",
     "typescript": "~5.7.0"
   },
   "engines": {

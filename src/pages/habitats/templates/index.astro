@@ -7,7 +7,7 @@ const description = 'All habitat layout names from the compiled Pokédex, with s
 const rows = getAllHabitatTemplateSummaries();
 ---
 
-<BaseLayout frontmatter={{ title, description }}>
+<BaseLayout frontmatter={{ title, description }} mainClass="main--wide">
   <p>
     <a href="/habitats/basics">← Habitat basics</a>
     · <a href="/habitats/catalog">Blueprints</a>
@@ -17,6 +17,24 @@ const rows = getAllHabitatTemplateSummaries();
     Each row links to a page on this site listing which Pokémon use that template. Data comes from the same enrichment pass
     that fills species pages (environment, time, weather, and these layout names).
   </p>
+
+  <div class="pokedex-toolbar">
+    <label class="pokedex-search-label" for="habitat-template-search-input">Search</label>
+    <input
+      id="habitat-template-search-input"
+      class="pokedex-search-input"
+      type="search"
+      placeholder="Template name or URL slug…"
+      autocomplete="off"
+      spellcheck="false"
+    />
+    <p class="pokedex-search-status" id="habitat-template-search-status" aria-live="polite"></p>
+  </div>
+
+  <p class="pokedex-no-results" id="habitat-template-no-results" hidden>
+    No habitat templates match your search.
+  </p>
+
   <table class="template-index-table">
     <thead>
       <tr>
@@ -26,15 +44,61 @@ const rows = getAllHabitatTemplateSummaries();
     </thead>
     <tbody>
       {
-        rows.map((r) => (
-          <tr>
-            <td>
-              <a href={`/habitats/template/${r.slug}`}>{r.name}</a>
-            </td>
-            <td>{r.speciesCount}</td>
-          </tr>
-        ))
+        rows.map((r) => {
+          const searchBlob = [r.name, r.slug, String(r.speciesCount)].join(' ').toLowerCase();
+          return (
+            <tr data-habitat-template-row data-search={searchBlob}>
+              <td>
+                <a href={`/habitats/template/${r.slug}`}>{r.name}</a>
+              </td>
+              <td>{r.speciesCount}</td>
+            </tr>
+          );
+        })
       }
     </tbody>
   </table>
+
+  <script is:inline>
+    (function () {
+      var input = document.getElementById('habitat-template-search-input');
+      var statusEl = document.getElementById('habitat-template-search-status');
+      var emptyEl = document.getElementById('habitat-template-no-results');
+      var tableRows = document.querySelectorAll('[data-habitat-template-row]');
+      if (!input || !statusEl || !emptyEl || !tableRows.length) return;
+
+      var total = tableRows.length;
+
+      function normQuery(raw) {
+        return String(raw || '')
+          .trim()
+          .toLowerCase();
+      }
+
+      function apply() {
+        var q = normQuery(input.value);
+        var visible = 0;
+        for (var i = 0; i < tableRows.length; i++) {
+          var tr = tableRows[i];
+          var hay = (tr.getAttribute('data-search') || '').toLowerCase();
+          var match = !q || hay.indexOf(q) !== -1;
+          tr.hidden = !match;
+          if (match) visible++;
+        }
+
+        var filtering = !!q;
+        if (!filtering) {
+          statusEl.textContent = '';
+        } else if (visible === 0) {
+          statusEl.textContent = 'No matches';
+        } else {
+          statusEl.textContent = visible + ' of ' + total + ' shown';
+        }
+        emptyEl.hidden = !(filtering && visible === 0);
+      }
+
+      input.addEventListener('input', apply);
+      input.addEventListener('search', apply);
+    })();
+  </script>
 </BaseLayout>
