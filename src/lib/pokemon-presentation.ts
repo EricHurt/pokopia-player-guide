@@ -58,9 +58,17 @@ const OFFICIAL_ART =
  * PNGs under `public/images/pokemon-art/` so `<img>` always loads (hotlinking Bulbagarden often fails
  * in browsers, which leaves only the `alt` text visible).
  */
+const SEREBII_POKOPIA_ART = 'https://www.serebii.net/pokemonpokopia/pokemon';
+
 const SPECIES_ARTWORK_URL_BY_SLUG: Record<string, string> = {
   'shellos-east-sea': '/images/pokemon-art/shellos-east.png',
   'gastrodon-east-sea': '/images/pokemon-art/gastrodon-east.png',
+  /** In-game–style Pokopia forms (Serebii Pokopia dex); not represented as separate IDs in PokéAPI official-artwork. */
+  peakychu: `${SEREBII_POKOPIA_ART}/025-peakychu.png`,
+  mosslax: `${SEREBII_POKOPIA_ART}/143-mosslax.png`,
+  tangrowth: `${SEREBII_POKOPIA_ART}/465-professortangrowth.png`,
+  smeargle: `${SEREBII_POKOPIA_ART}/235-smearguru.png`,
+  tinkaton: `${SEREBII_POKOPIA_ART}/959-tinkmeister.png`,
 };
 
 /**
@@ -69,21 +77,6 @@ const SPECIES_ARTWORK_URL_BY_SLUG: Record<string, string> = {
 export function officialArtworkUrl(nationalDex?: number): string | null {
   if (nationalDex == null || !Number.isFinite(nationalDex) || nationalDex < 1) return null;
   return `${OFFICIAL_ART}/${nationalDex}.png`;
-}
-
-/**
- * Pokopia story variants that share base species `nationalDex` (Pikachu, Snorlax, …) but should look
- * distinct: same PokéAPI official artwork, different pose via CSS on `speciesArtworkPoseWrapClass`.
- */
-const SPECIES_ART_POSE_SLUGS: Record<string, true> = {
-  peakychu: true,
-  mosslax: true,
-};
-
-/** Optional wrapper classes for catalog / habitat artwork (mirror, tilt). */
-export function speciesArtworkPoseWrapClass(slug: string): string | undefined {
-  if (!SPECIES_ART_POSE_SLUGS[slug]) return undefined;
-  return `species-art-wrap species-art-wrap--${slug}`;
 }
 
 /** Artwork URL for catalog / detail (repo override, then official-artwork from `nationalDex`). */

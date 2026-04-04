@@ -2,7 +2,6 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getAllHabitatTemplateSummaries, getAllPokemon } from '../../lib/game-data';
 import {
-  speciesArtworkPoseWrapClass,
   speciesArtworkUrl,
   typeLabelToPillClass,
 } from '../../lib/pokemon-presentation';
@@ -130,7 +129,6 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
         const searchBlob = [s.name, s.slug, s.dexNumber ?? '', s.element, blurb].join(' ').toLowerCase();
         const habitatSlugList = (s.habitatTemplates ?? []).map((h) => h.slug).join(' ');
         const artUrl = speciesArtworkUrl(s.slug, s.nationalDex);
-        const poseWrapClass = speciesArtworkPoseWrapClass(s.slug);
         return (
           <li
             class="pokedex-card"
@@ -146,7 +144,7 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
               </div>
               {artUrl ? (
                 <div class="pokedex-card__art">
-                  <span class:list={['pokedex-card__img-clip', poseWrapClass]}>
+                  <span class="pokedex-card__img-clip">
                     <img
                       class="pokedex-card__img"
                       src={artUrl}
@@ -155,6 +153,7 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
                       alt={`${s.name} (official-style artwork)`}
                       loading="lazy"
                       decoding="async"
+                      referrerpolicy="no-referrer"
                     />
                   </span>
                 </div>

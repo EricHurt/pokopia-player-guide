@@ -9,7 +9,6 @@ import {
 import { habitatPreviewImageUrl } from '../../lib/habitat-art';
 import {
   habitatThemeFromTypes,
-  speciesArtworkPoseWrapClass,
   speciesArtworkUrl,
   typeLabelToPillClass,
 } from '../../lib/pokemon-presentation';
@@ -31,7 +30,6 @@ const title = species.name;
 const description = species.summary;
 const theme = habitatThemeFromTypes(species.element);
 const artUrl = speciesArtworkUrl(species.slug, species.nationalDex);
-const poseWrapClass = speciesArtworkPoseWrapClass(species.slug);
 const typeLabels = species.element.split('/').map((t) => t.trim()).filter(Boolean);
 
 const hasStructuredHabitat =
@@ -97,7 +95,7 @@ function peLabel(pe: string | readonly string[] | undefined): string {
       <button type="button" class="habitat-mon" aria-label={`Trigger ${species.name} attack animation`}>
         {
           artUrl ? (
-            <span class:list={['habitat-mon__img-clip', poseWrapClass]}>
+            <span class="habitat-mon__img-clip">
               <img
                 class="habitat-mon__img"
                 src={artUrl}
@@ -106,6 +104,7 @@ function peLabel(pe: string | readonly string[] | undefined): string {
                 alt={`${species.name} official-style artwork`}
                 loading="eager"
                 decoding="async"
+                referrerpolicy="no-referrer"
               />
             </span>
           ) : (
