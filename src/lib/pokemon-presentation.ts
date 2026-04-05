@@ -52,12 +52,6 @@ export function habitatThemeFromTypes(element: string): HabitatVisualTheme {
 const OFFICIAL_ART =
   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork';
 
-/**
- * Slugs whose artwork is not `official-artwork/{nationalDex}.png` (wrong or missing in that folder).
- * East Sea Shellos/Gastrodon: PokéAPI has no east official-artwork PNG. We ship Ken Sugimori east-form
- * PNGs under `public/images/pokemon-art/` so `<img>` always loads (hotlinking Bulbagarden often fails
- * in browsers, which leaves only the `alt` text visible).
- */
 const SEREBII_POKOPIA_ART = 'https://www.serebii.net/pokemonpokopia/pokemon';
 
 const SPECIES_ARTWORK_URL_BY_SLUG: Record<string, string> = {
