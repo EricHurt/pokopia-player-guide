@@ -34,6 +34,12 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{css,js,html,svg,png,ico,woff2,json,webmanifest}'],
+        /**
+         * Astro emits `404.html` at the site root; Workbox maps it to URL path `404` (no extension).
+         * Vercel does not serve that path → precache fails with bad-precaching-response and the new
+         * service worker never activates, so users keep stale cached HTML (e.g. old Pokémon art).
+         */
+        globIgnores: ['**/404.html'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
       },
       devOptions: {
