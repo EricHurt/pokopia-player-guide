@@ -1,0 +1,19 @@
+{
+  "name": "Pokopia Guide",
+  "short_name": "Pokopia",
+  "description": "Fan-made Pokopia player guide — Pokémon, habitats, and progression tips.",
+  "theme_color": "#2a8f5c",
+  "background_color": "#b8e8f2",
+  "display": "standalone",
+  "orientation": "any",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
