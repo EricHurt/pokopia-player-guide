@@ -57,6 +57,13 @@ const nav = [
       rel="stylesheet"
     />
     <title>{frontmatter.title} | Pokopia Guide</title>
+    {
+      import.meta.env.PROD ? (
+        <script is:inline>
+          if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').then((r) => r.update());
+        </script>
+      ) : null
+    }
   </head>
   <body class:list={['forest-site', bodyClass]}>
     <a class="skip" href="#main">Skip to content</a>
