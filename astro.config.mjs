@@ -36,10 +36,24 @@ export default defineConfig({
         globPatterns: ['**/*.{css,js,html,svg,png,ico,woff2,json,webmanifest}'],
         /**
          * Astro emits `404.html` at the site root; Workbox maps it to URL path `404` (no extension).
-         * Vercel does not serve that path → precache fails with bad-precaching-response and the new
-         * service worker never activates, so users keep stale cached HTML (e.g. old Pokémon art).
+         * Static hosts often return 404 for that path → bad-precaching-response. Exclude the file and
+         * strip any `404` entry from the manifest (some plugin versions still inject it).
          */
         globIgnores: ['**/404.html'],
+        manifestTransforms: [
+          (entries) => {
+            const manifest = entries.filter((e) => {
+              const raw = e.url.split('?')[0].replace(/^\.\//, '');
+              if (raw === '404' || raw === '/404') return false;
+              try {
+                return new URL(raw, 'https://pwa.local').pathname !== '/404';
+              } catch {
+                return true;
+              }
+            });
+            return { manifest, warnings: [] };
+          },
+        ],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
       },
       devOptions: {
