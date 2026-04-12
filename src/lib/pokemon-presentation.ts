@@ -52,9 +52,6 @@ export function habitatThemeFromTypes(element: string): HabitatVisualTheme {
 const OFFICIAL_ART =
   'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork';
 
-/**
- * Official-style artwork from PokéAPI sprites (`nationalDex` = PokéAPI `pokemon.id`, not regional `dexNumber`).
- */
 export function officialArtworkUrl(nationalDex?: number): string | null {
   if (nationalDex == null || !Number.isFinite(nationalDex) || nationalDex < 1) return null;
   return `${OFFICIAL_ART}/${nationalDex}.png`;
