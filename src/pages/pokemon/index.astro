@@ -190,7 +190,16 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
       var cards = document.querySelectorAll('[data-pokedex-card]');
       if (!input || !dexInput || !habitatSelect || !statusEl || !emptyEl || !azBar || !cards.length) return;
 
-      var total = cards.length;
+      /** Unique Pokopia regional dex labels (e.g. Pikachu + Peakychu share "079" → one slot). */
+      var total = 0;
+      var uniqueDex = {};
+      for (var t = 0; t < cards.length; t++) {
+        var rawDex = String(cards[t].getAttribute('data-pokopia-dex') || '').trim();
+        if (rawDex) uniqueDex[rawDex] = true;
+      }
+      for (var k in uniqueDex) {
+        if (Object.prototype.hasOwnProperty.call(uniqueDex, k)) total++;
+      }
       var selectedLetter = '';
       var azButtons = azBar.querySelectorAll('[data-az-filter]');
 

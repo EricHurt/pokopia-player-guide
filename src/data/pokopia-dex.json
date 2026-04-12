@@ -2,7 +2,7 @@
   "meta": {
     "game": "Pokémon Pokopia",
     "description": "Compiled fan reference. Pokopia uses Specialty skills and Habitat construction instead of random wild encounters.",
-    "speciesCount": 307,
+    "speciesCount": 303,
     "lastGenerated": "2026-04-02",
     "sources": [
       "https://pokopia.dev/pokedex",
