@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import AstroPWA from '@vite-pwa/astro';
+import { createPokopiaWorkboxManifestTransform } from './scripts/pwa-workbox-manifest-transform.mjs';
 
 // After deployment, set `site` to your real public URL (required for PWA scope and OG URLs).
 export default defineConfig({
@@ -34,25 +35,14 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{css,js,html,svg,png,ico,woff2,json,webmanifest}'],
-        /**
-         * Astro emits `404.html` at the site root; Workbox maps it to URL path `404` (no extension).
-         * Static hosts often return 404 for that path → bad-precaching-response. Exclude the file and
-         * strip any `404` entry from the manifest (some plugin versions still inject it).
-         */
+        /** @vite-pwa/astro skips its own manifest transform when this is set — use scripts/pwa-workbox-manifest-transform.mjs */
         globIgnores: ['**/404.html'],
         manifestTransforms: [
-          (entries) => {
-            const manifest = entries.filter((e) => {
-              const raw = e.url.split('?')[0].replace(/^\.\//, '');
-              if (raw === '404' || raw === '/404') return false;
-              try {
-                return new URL(raw, 'https://pwa.local').pathname !== '/404';
-              } catch {
-                return true;
-              }
-            });
-            return { manifest, warnings: [] };
-          },
+          createPokopiaWorkboxManifestTransform({
+            scope: '/',
+            trailingSlash: 'ignore',
+            useDirectoryFormat: true,
+          }),
         ],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
       },
