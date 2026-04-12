@@ -6394,7 +6394,8 @@
         "Cloudy",
         "Rainy"
       ],
-      "nationalDex": 479
+      "nationalDex": 479,
+      "pokopiaArtworkUrl": "https://www.serebii.net/pokemonpokopia/pokemon/479-stereorotom.png"
     },
     {
       "name": "Larvesta",
