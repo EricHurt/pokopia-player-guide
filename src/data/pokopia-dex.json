@@ -1516,7 +1516,7 @@
       "nationalDex": 114
     },
     {
-      "name": "Tangrowth",
+      "name": "Professor Tangrowth",
       "slug": "tangrowth",
       "dexNumber": "041",
       "types": [
@@ -4142,7 +4142,7 @@
       "nationalDex": 980
     },
     {
-      "name": "Smeargle",
+      "name": "Smearguru",
       "slug": "smeargle",
       "dexNumber": "119",
       "types": [
@@ -9411,7 +9411,7 @@
       "nationalDex": 958
     },
     {
-      "name": "Tinkaton",
+      "name": "Tinkmeister",
       "slug": "tinkaton",
       "dexNumber": "270",
       "types": [
