@@ -9,6 +9,7 @@
  *
  * Run: npm run sync:national-dex
  * Writes: src/data/pokopia-dex.json + public/data/pokopia-dex.json
+ * Preserves other species fields (e.g. pokopiaArtworkUrl).
  */
 import fs from 'node:fs';
 import path from 'node:path';

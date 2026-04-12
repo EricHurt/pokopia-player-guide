@@ -50,6 +50,11 @@ export interface PokemonSpecies {
    * Filled by `npm run sync:national-dex`; differs from regional `dexNumber`.
    */
   nationalDex?: number;
+  /**
+   * When set, catalog/detail use this URL instead of PokéAPI official-artwork (Pokopia-specific or regional art).
+   * Declared in `pokopia-dex.json` per species.
+   */
+  pokopiaArtworkUrl?: string;
   readonly preferredEnvironment?: string | readonly string[];
   readonly timeOfDay?: readonly string[];
   readonly weather?: readonly string[];

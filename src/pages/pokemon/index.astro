@@ -128,7 +128,7 @@ const description = 'All species from src/data/pokopia-dex.json — edit JSON to
         const blurb = s.summary.replace(/^Specialties:\s*/, '');
         const searchBlob = [s.name, s.slug, s.dexNumber ?? '', s.element, blurb].join(' ').toLowerCase();
         const habitatSlugList = (s.habitatTemplates ?? []).map((h) => h.slug).join(' ');
-        const artUrl = speciesArtworkUrl(s.slug, s.nationalDex);
+        const artUrl = speciesArtworkUrl(s.nationalDex, s.pokopiaArtworkUrl);
         return (
           <li
             class="pokedex-card"

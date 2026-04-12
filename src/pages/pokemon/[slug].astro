@@ -29,7 +29,7 @@ const { prev: prevMon, next: nextMon } = getPokemonDexNeighbors(species.slug);
 const title = species.name;
 const description = species.summary;
 const theme = habitatThemeFromTypes(species.element);
-const artUrl = speciesArtworkUrl(species.slug, species.nationalDex);
+const artUrl = speciesArtworkUrl(species.nationalDex, species.pokopiaArtworkUrl);
 const typeLabels = species.element.split('/').map((t) => t.trim()).filter(Boolean);
 
 const hasStructuredHabitat =

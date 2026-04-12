@@ -22,7 +22,7 @@
       "completedAt": "2026-04-02T01:50:25.390Z",
       "source": "https://pokeapi.co/api/v2/pokemon",
       "field": "nationalDex",
-      "note": "Per-species nationalDex is PokéAPI pokemon id for artwork URLs (regional dexNumber is separate). Run npm run sync:national-dex to refresh."
+      "note": "Per-species nationalDex is PokéAPI pokemon id for default artwork URLs (regional dexNumber is separate). Run npm run sync:national-dex to refresh. Optional pokopiaArtworkUrl on a species overrides with Pokopia/regional art (see species that need non-mainline sprites)."
     }
   },
   "habitatGuide": {
@@ -1552,7 +1552,8 @@
         "Cloudy",
         "Rainy"
       ],
-      "nationalDex": 465
+      "nationalDex": 465,
+      "pokopiaArtworkUrl": "https://www.serebii.net/pokemonpokopia/pokemon/465-professortangrowth.png"
     },
     {
       "name": "Scyther",
@@ -2110,7 +2111,8 @@
       ],
       "habitats": [],
       "habitatBuildNotes": "Live guide unavailable for \"shellos-east-sea\" (404). Try https://pokopiaguide.com/pokedex/shellos-east-sea",
-      "nationalDex": 422
+      "nationalDex": 422,
+      "pokopiaArtworkUrl": "/images/pokemon-art/shellos-east.png"
     },
     {
       "name": "Gastrodon East Sea",
@@ -2126,7 +2128,8 @@
       ],
       "habitats": [],
       "habitatBuildNotes": "Live guide unavailable for \"gastrodon-east-sea\" (404). Try https://pokopiaguide.com/pokedex/gastrodon-east-sea",
-      "nationalDex": 423
+      "nationalDex": 423,
+      "pokopiaArtworkUrl": "/images/pokemon-art/gastrodon-east.png"
     },
     {
       "name": "Drifloon",
@@ -2801,7 +2804,8 @@
       ],
       "habitats": [],
       "habitatBuildNotes": "Live guide unavailable for \"peakychu\" (404). Try https://pokopiaguide.com/pokedex/peakychu",
-      "nationalDex": 25
+      "nationalDex": 25,
+      "pokopiaArtworkUrl": "https://www.serebii.net/pokemonpokopia/pokemon/025-peakychu.png"
     },
     {
       "name": "Raichu",
@@ -3775,7 +3779,8 @@
       ],
       "habitats": [],
       "habitatBuildNotes": "Live guide unavailable for \"mosslax\" (404). Try https://pokopiaguide.com/pokedex/mosslax",
-      "nationalDex": 143
+      "nationalDex": 143,
+      "pokopiaArtworkUrl": "https://www.serebii.net/pokemonpokopia/pokemon/143-mosslax.png"
     },
     {
       "name": "Spinarak",
@@ -4165,7 +4170,8 @@
         "Cloudy",
         "Rainy"
       ],
-      "nationalDex": 235
+      "nationalDex": 235,
+      "pokopiaArtworkUrl": "https://www.serebii.net/pokemonpokopia/pokemon/235-smearguru.png"
     },
     {
       "name": "Torchic",
@@ -9434,7 +9440,8 @@
         "Cloudy",
         "Rainy"
       ],
-      "nationalDex": 959
+      "nationalDex": 959,
+      "pokopiaArtworkUrl": "https://www.serebii.net/pokemonpokopia/pokemon/959-tinkmeister.png"
     },
     {
       "name": "Aerodactyl",

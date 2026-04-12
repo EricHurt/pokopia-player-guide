@@ -39,6 +39,10 @@ const pokemonSpecies: PokemonSpecies[] = dex.species.map((s) => {
     abilityIds: s.specialties.map((sp) => specialtyToId(sp)),
     dexNumber: s.dexNumber,
     nationalDex: typeof s.nationalDex === 'number' ? s.nationalDex : undefined,
+    pokopiaArtworkUrl:
+      typeof (s as { pokopiaArtworkUrl?: unknown }).pokopiaArtworkUrl === 'string'
+        ? (s as { pokopiaArtworkUrl: string }).pokopiaArtworkUrl
+        : undefined,
     preferredEnvironment: s.preferredEnvironment as PokemonSpecies['preferredEnvironment'],
     timeOfDay: s.timeOfDay as PokemonSpecies['timeOfDay'],
     weather: s.weather as PokemonSpecies['weather'],
